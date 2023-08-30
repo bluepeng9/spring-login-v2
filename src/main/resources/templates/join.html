@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>join page</title>
+</head>
+<body>
+<div>
+    <h2>join</h2>
+    <form th:action="@{/join}" th:method="post" th:object="${memberJoinRequest}">
+        <div>
+            <input placeholder="이메일을 입력하세요" th:field="*{email}" type="text">
+        </div>
+        <div>
+            <input placeholder="패스워드를 입력하세요" th:field="*{password}" type="password">
+        </div>
+        <div>
+            <input type="submit" value="회원 가입">
+        </div>
+    </form>
+</div>
+</body>
+</html>
