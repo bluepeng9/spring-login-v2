@@ -6,10 +6,13 @@ import com.example.springlogin.member.dto.MemberLoginRequest;
 import com.example.springlogin.member.service.MemberJoinParam;
 import com.example.springlogin.member.service.MemberLoginParam;
 import com.example.springlogin.member.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +25,13 @@ public class MemberController {
     final MemberService memberService;
 
     @GetMapping("/")
-    public String getHomePage() {
+    public String getHomePage(@CookieValue(name = "memberId", required = false) Long memberId, Model model) {
+
+        if (memberId != null) {
+            Member user = memberService.getUser(memberId);
+            model.addAttribute("email", user == null ? null : user.getEmail());
+        }
+
         return "home";
     }
 
@@ -51,13 +60,20 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("memberLoginRequest") MemberLoginRequest request) {
+    public String login(@ModelAttribute("memberLoginRequest") MemberLoginRequest request, Model model, HttpServletResponse response) {
         log.info("request = {}", request);
+
         MemberLoginParam param = MemberLoginParam.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .build();
+
         Member found = memberService.login(param);
+
+        Cookie cookie = new Cookie("memberId", String.valueOf(found.getId()));
+        cookie.setMaxAge(60 * 10);
+        response.addCookie(cookie);
+
         return "redirect:";
     }
 }

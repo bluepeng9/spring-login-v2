@@ -5,6 +5,11 @@
     <title>home page</title>
 </head>
 <body>
+<div>
+    <div th:if="${email != null}">
+        안녕하세요 [[${email}]]님
+    </div>
+</div>
 <ul>
     <li>
         <a href="/login">로그인 페이지로</a>

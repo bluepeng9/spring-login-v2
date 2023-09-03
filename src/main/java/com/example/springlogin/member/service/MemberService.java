@@ -5,16 +5,19 @@ import com.example.springlogin.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class MemberService {
 
     final MemberRepository memberRepository;
 
+    @Transactional
     public void join(MemberJoinParam param) {
         log.info("param = {}", param);
         Member member = Member.builder()
@@ -23,6 +26,11 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
+    }
+
+    public Member getUser(Long id) {
+        Optional<Member> found = memberRepository.findById(id);
+        return found.orElse(null);
     }
 
     public Member login(MemberLoginParam param) {
