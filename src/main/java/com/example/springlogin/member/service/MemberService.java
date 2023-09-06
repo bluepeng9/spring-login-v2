@@ -44,7 +44,7 @@ public class MemberService {
             throw new RuntimeException();
         }
         Member member = found.get();
-        if (!member.getPassword().equals(param.password)) {
+        if (!passwordEncoder.matches(param.password, member.getPassword())) {
             throw new RuntimeException();
         }
         return member;
