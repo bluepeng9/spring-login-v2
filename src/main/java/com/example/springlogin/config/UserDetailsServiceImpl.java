@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    MemberService service;
+    final MemberService service;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

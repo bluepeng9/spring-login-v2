@@ -36,6 +36,11 @@ public class MemberService {
         return found.orElse(null);
     }
 
+    public Member getUser(String email) {
+        Optional<Member> found = memberRepository.findByEmail(email);
+        return found.orElse(null);
+    }
+
     public Member login(MemberLoginParam param) {
         log.info("param = {}", param);
 
