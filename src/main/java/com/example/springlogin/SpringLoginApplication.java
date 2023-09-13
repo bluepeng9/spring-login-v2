@@ -9,11 +9,13 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(
         basePackages = {"com.example"},
         excludeFilters = {
-                @ComponentScan.Filter(type = FilterType.ASPECTJ, pattern = "com.example.springlogin.member.controller.MemberController" +
-                        "&& !(com.example.springlogin.member.controller.MemberSessionController)")
+                @ComponentScan.Filter(type = FilterType.ASPECTJ, pattern = "com.example.springlogin.member.controller.**Controller" +
+                        "&& !(com.example.springlogin.member.controller.MemberSecurityController)"
+                )
         }
 )
 public class SpringLoginApplication {
+
 
     public static void main(String[] args) {
         SpringApplication.run(SpringLoginApplication.class, args);
