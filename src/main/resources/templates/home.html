@@ -7,7 +7,10 @@
 <body>
 <div>
     <div th:if="${email != null}">
-        안녕하세요 [[${email}]]님
+        <form action="/logout" method="post">
+            안녕하세요 [[${email}]]님
+            <input type="submit" value="로그아웃">
+        </form>
     </div>
 </div>
 <ul>
