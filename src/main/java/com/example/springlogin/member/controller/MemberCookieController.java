@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-public class MemberController {
+public class MemberCookieController {
 
     final MemberService memberService;
 
