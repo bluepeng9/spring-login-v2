@@ -23,6 +23,7 @@ public class SpringSecurityConfig {
                         .usernameParameter("email")
                         .passwordParameter("password")
                 )
+                .logout(config -> config.logoutSuccessUrl("/"))
                 .userDetailsService(userDetailsService)
                 .build();
     }
