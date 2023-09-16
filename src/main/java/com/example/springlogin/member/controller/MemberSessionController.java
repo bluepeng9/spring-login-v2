@@ -65,8 +65,7 @@ public class MemberSessionController {
 
         MemberLoginParam param = MemberLoginParam.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
-                .build();
+                .password(request.getPassword()).build();
 
         Member found = memberService.login(param);
 
@@ -75,5 +74,14 @@ public class MemberSessionController {
         session.setMaxInactiveInterval(60 * 10);
 
         return "redirect:";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
     }
 }
