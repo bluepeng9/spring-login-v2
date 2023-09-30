@@ -2,9 +2,12 @@ package com.example.springlogin.jwt;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +20,16 @@ public class JwtTest {
         JwtBuilder builder = Jwts.builder()
                 .setHeader(createHeader())
                 .setClaims(createClaims())
-                .setSubject(String.valueOf(user.id));
+                .setSubject(String.valueOf(user.id))
+                .signWith(SignatureAlgorithm.HS256, createSign());
 
         String compact = builder.compact();
         log.info("compact = {}", compact);
+    }
+
+    private Key createSign() {
+        String secret = "12341234123412341234123412341234";
+        return new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
     }
 
     private Map<String, Object> createClaims() {
