@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +22,15 @@ public class JwtTest {
                 .setHeader(createHeader())
                 .setClaims(createClaims())
                 .setSubject(String.valueOf(user.id))
+                .setExpiration(createExpiration())
                 .signWith(SignatureAlgorithm.HS256, createSign());
 
         String compact = builder.compact();
         log.info("compact = {}", compact);
+    }
+
+    private Date createExpiration() {
+        return new Date(System.currentTimeMillis() + 1000 * 60);
     }
 
     private Key createSign() {
