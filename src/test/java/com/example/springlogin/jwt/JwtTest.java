@@ -29,6 +29,20 @@ public class JwtTest {
         log.info("compact = {}", compact);
     }
 
+    @Test
+    public void validCheck() {
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE2OTY0NDE2NzF9.nvkZCF2zCk8c-d9gixa7FGL8GLLYufcoFffzKBB8nK8";
+        String secret = "12341234123412341234123412341234";
+//        DefaultJwtSignatureValidator validator = new DefaultJwtSignatureValidator(SignatureAlgorithm.HS256, new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName()));
+//        String[] split = token.split("\\.");
+//        boolean valid = validator.isValid(split[0] + "." + split[1], split[2]);
+//        log.info("valid = {}", valid);
+
+        Jwts.parser().setSigningKey(secret.getBytes())
+                .parseClaimsJws(token).getBody();
+    }
+
+
     private Date createExpiration() {
         return new Date(System.currentTimeMillis() + 1000 * 60);
     }
